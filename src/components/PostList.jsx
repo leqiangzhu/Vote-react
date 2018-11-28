@@ -29,7 +29,9 @@ function PostList(props){
 PostList.propTypes = {
   postList: PropTypes.array
   };
-  
+
   
   
   export default PostList;
+
+  localStorage
