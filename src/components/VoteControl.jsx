@@ -5,12 +5,12 @@ import PostList from './PostList';
 import NewPostForm from './NewPostForm';
 
 
-class VoteControl extends React.Component{
- 
+class VoteControl extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      formVisibleOnPage: false
+      formVisibleOnPage: false,
     };
     //     this.handleClick = this.handleClick.bind(this);
     this.handleTroubleshootingConfirmation = this.handleTroubleshootingConfirmation.bind(this);
@@ -26,12 +26,22 @@ class VoteControl extends React.Component{
   //     console.log('formVisibleOnPage is currently set to:' + this.state.formVisibleOnPage);
   //   }
 
+  handleVoteDown () {
+
+  }
+
   render() {
     let currentlyVisibleContent = null;
 
     if (this.state.formVisibleOnPage) {
-      currentlyVisibleContent = <PostList onTroubleshootingConfirmation={this.this.handleTroubleshootingConfirmation}/>;
-    } 
+      currentlyVisibleContent = <PostList 
+      
+      onVoteDown={this.props.onVoteDown}
+      onTroubleshootingConfirmation={this.handleTroubleshootingConfirmation} postList={this.props.postList} />;
+    } else {
+      currentlyVisibleContent = <NewPostForm onNewPostCreation={this.props.onNewPostCreation} />
+    }
+
     return (
       <div>
         {currentlyVisibleContent}
@@ -43,7 +53,7 @@ class VoteControl extends React.Component{
 VoteControl.propTypes = {
   onNewPostCreation: PropTypes.func
 };
-  
-  
-  
-  export default VoteControl;
+
+
+
+export default VoteControl;

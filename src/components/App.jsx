@@ -7,12 +7,14 @@ import VoteList from './PostList';
 import PostList from './PostList';
 import NewPostForm from './NewPostForm';
 import { Link } from 'react-router-dom';
+import Header from './Header';
+
 
 
 
 /*
   import { Link } from 'react-router-dom';
-  <Link to="/">Home</Link> | <Link to="/newticket">Create Ticket</Link>
+  <Link to="/">Home</Link> | <Link to="/newPost">Create Ticket</Link>
 */
 
 class App extends React.Component{
@@ -21,27 +23,41 @@ class App extends React.Component{
     this.state = {
        masterPostList: []
     };
-   this.handleAddingNewTicketToList = this.handleAddingNewTicketToList.bind(this);
+   this.handleAddingNewPostToList = this.handleAddingNewPostToList.bind(this);
+   this.handleDownVote = this.handleDownVote.bind(this);
 
   }
 
-  handleAddingNewTicketToList(newTicket){
-    var newMasterTicketList = this.state.masterPostList.slice();
-    newMasterTicketList.push(newTicket);
-    this.setState({masterPostList: newMasterTicketList});
-
-
+  handleAddingNewPostToList(newPost){
+    var newMasterPostList = this.state.masterPostList.slice();
+    newMasterPostList.push(newPost);
+    this.setState({masterPostList: newMasterPostList});
   }
 
+  onVoteUpConfirmation(props){
+    props.voteCount++;
+    console.log(1);
+  }
+
+  handleDownVote(thisPost){
+    var newList = this.state.masterPostList.slice();
+    var index = newList.indexOf(thisPost);
+    newList[index].voteCount--;
+    this.setState({masterPostList: newList});
+  }
+
+
+  
   render(){
   return (
     <div>
-     
-      VoteBasedDiscussionForum
+             <Header/>
       <Switch>
-         {/* <Route path='/newpost' render={()=> <VoteControl onNewPostCreation= {this.handleAddingNewTicketToList}/>} /> */}
-         <Link to="/newticket">Create Ticket</Link>
-        <Route exact path='/' render={()=><PostList postList={this.state.masterPostList} />} />
+         <Route path='/newpost' render={()=> <VoteControl 
+         
+         onNewPostCreation= {this.handleAddingNewPostToList}/>} />
+        <Route exact path='/' render={()=><PostList onVoteDown={this.handleDownVote}
+        postList={this.state.masterPostList} />} />
         <Route component={Error404} />
       </Switch>
     </div>
